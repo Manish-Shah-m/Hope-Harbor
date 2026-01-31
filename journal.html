@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Journal | Hope Harbor</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@300;400;500;600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['"Cormorant Garamond"', 'serif'],
+                        sans: ['"Inter"', 'sans-serif'],
+                        display: ['"DM Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        sage: { 50: '#f4f7f4', 100: '#e3ebe3', 200: '#c5d9c5', 300: '#9bbd9b', 500: '#6b9b6b', 700: '#4a6b4a', 900: '#2d422d' },
+                        clay: { 50: '#faf6f3', 100: '#f0e6dd', 500: '#c98f6d', 700: '#a66d4d' },
+                        lavender: { 50: '#f8f8fc', 100: '#f0f0f9', 500: '#8a8ac4' },
+                        earth: '#1a1a1a', cream: '#faf9f7',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        .nav-blur { backdrop-filter: blur(20px); background: rgba(250, 249, 247, 0.8); }
+        
+        .mood-btn {
+            transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .mood-btn:hover { transform: translateY(-4px); }
+        .mood-btn.selected { 
+            transform: scale(1.1); 
+            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.2);
+        }
+        
+        .entry-card {
+            transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .entry-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px -20px rgba(0,0,0,0.15);
+        }
+        
+        /* Mood Chart Bars */
+        .mood-bar {
+            transition: height 1s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+    </style>
+</head>
+<body class="bg-cream text-earth font-sans antialiased">
+
+    <nav class="fixed w-full z-50 nav-blur border-b border-sage-100/50">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <a href="index.html" class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-full bg-sage-500 flex items-center justify-center">
+                        <i data-lucide="flower-2" class="w-5 h-5 text-white"></i>
+                    </div>
+                    <span class="font-serif text-2xl text-earth font-medium">Hope Harbor</span>
+                </a>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="text-sm font-display font-medium text-earth/60">Sanctuary</a>
+                    <a href="wellness.html" class="text-sm font-display font-medium text-earth/60">Practices</a>
+                    <a href="journal.html" class="text-sm font-display font-medium text-earth">Journal</a>
+                    <a href="resources.html" class="text-sm font-display font-medium text-earth/60">Guidance</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="pt-32 pb-20 max-w-7xl mx-auto px-6 lg:px-8">
+        <div class="mb-12">
+            <h1 class="font-serif text-5xl text-earth mb-4">Your Sanctuary</h1>
+            <p class="text-earth/60 text-lg">A private space for reflection. All data remains on your device.</p>
+        </div>
+
+        <div class="grid lg:grid-cols-12 gap-8">
+            <!-- Left Column: Entry Form -->
+            <div class="lg:col-span-5">
+                <div class="bg-white rounded-3xl p-8 shadow-sm border border-sage-100 sticky top-24">
+                    <h2 class="font-serif text-2xl text-earth mb-6">New Entry</h2>
+                    
+                    <form id="journal-form" onsubmit="saveEntry(event)" class="space-y-6">
+                        <!-- Mood Selection -->
+                        <div>
+                            <label class="block text-sm font-display font-medium text-earth/60 mb-3 uppercase tracking-wider">How are you feeling?</label>
+                            <div class="flex justify-between gap-2">
+                                <button type="button" onclick="selectMood(1, this)" class="mood-btn flex-1 aspect-square rounded-2xl bg-red-50 hover:bg-red-100 flex items-center justify-center text-3xl" title="Very Low">😢</button>
+                                <button type="button" onclick="selectMood(2, this)" class="mood-btn flex-1 aspect-square rounded-2xl bg-orange-50 hover:bg-orange-100 flex items-center justify-center text-3xl" title="Low">😕</button>
+                                <button type="button" onclick="selectMood(3, this)" class="mood-btn flex-1 aspect-square rounded-2xl bg-yellow-50 hover:bg-yellow-100 flex items-center justify-center text-3xl" title="Okay">😐</button>
+                                <button type="button" onclick="selectMood(4, this)" class="mood-btn flex-1 aspect-square rounded-2xl bg-blue-50 hover:bg-blue-100 flex items-center justify-center text-3xl" title="Good">🙂</button>
+                                <button type="button" onclick="selectMood(5, this)" class="mood-btn flex-1 aspect-square rounded-2xl bg-green-50 hover:bg-green-100 flex items-center justify-center text-3xl" title="Great">😄</button>
+                            </div>
+                            <input type="hidden" id="mood-value" required>
+                        </div>
+
+                        <!-- Title -->
+                        <div>
+                            <label class="block text-sm font-display font-medium text-earth/60 mb-2 uppercase tracking-wider">Title</label>
+                            <input type="text" id="entry-title" placeholder="What's on your mind?" 
+                                   class="w-full px-4 py-3 rounded-xl bg-cream border-none focus:ring-2 focus:ring-sage-300 outline-none transition font-serif text-lg">
+                        </div>
+
+                        <!-- Content -->
+                        <div>
+                            <label class="block text-sm font-display font-medium text-earth/60 mb-2 uppercase tracking-wider">Reflection</label>
+                            <textarea id="entry-content" rows="6" placeholder="Write freely here..." 
+                                      class="w-full px-4 py-3 rounded-xl bg-cream border-none focus:ring-2 focus:ring-sage-300 outline-none transition resize-none leading-relaxed"
+                                      required></textarea>
+                        </div>
+
+                        <!-- Tags -->
+                        <div>
+                            <label class="block text-sm font-display font-medium text-earth/60 mb-2 uppercase tracking-wider">Tags</label>
+                            <div class="flex flex-wrap gap-2" id="tag-container">
+                                <button type="button" onclick="toggleTag(this, 'gratitude')" class="px-4 py-2 rounded-full border border-sage-200 text-sm text-earth/70 hover:bg-sage-50 hover:border-sage-300 transition">gratitude</button>
+                                <button type="button" onclick="toggleTag(this, 'anxiety')" class="px-4 py-2 rounded-full border border-sage-200 text-sm text-earth/70 hover:bg-sage-50 hover:border-sage-300 transition">anxiety</button>
+                                <button type="button" onclick="toggleTag(this, 'hope')" class="px-4 py-2 rounded-full border border-sage-200 text-sm text-earth/70 hover:bg-sage-50 hover:border-sage-300 transition">hope</button>
+                                <button type="button" onclick="toggleTag(this, 'sleep')" class="px-4 py-2 rounded-full border border-sage-200 text-sm text-earth/70 hover:bg-sage-50 hover:border-sage-300 transition">sleep</button>
+                            </div>
+                            <input type="hidden" id="entry-tags">
+                        </div>
+
+                        <button type="submit" class="w-full py-4 bg-earth text-cream rounded-xl font-display font-medium hover:bg-sage-700 transition-all flex items-center justify-center gap-2 group">
+                            <span>Save Entry</span>
+                            <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                        </button>
+                    </form>
+
+                    <div class="mt-6 pt-6 border-t border-sage-100">
+                        <button onclick="exportData()" class="w-full py-3 border border-sage-200 text-sage-700 rounded-xl text-sm font-medium hover:bg-sage-50 transition flex items-center justify-center gap-2">
+                            <i data-lucide="download" class="w-4 h-4"></i>
+                            Export Data (JSON)
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Analytics & Entries -->
+            <div class="lg:col-span-7 space-y-8">
+                
+                <!-- Mood Analytics -->
+                <div class="bg-white rounded-3xl p-8 shadow-sm border border-sage-100">
+                    <h3 class="font-serif text-2xl text-earth mb-6">Mood Patterns</h3>
+                    <div class="h-48 flex items-end justify-between gap-2" id="mood-chart">
+                        <div class="w-full h-full flex items-center justify-center text-earth/40 text-sm">
+                            No entries yet. Start journaling to see patterns.
+                        </div>
+                    </div>
+                    <div class="flex justify-between mt-4 text-xs text-earth/40 font-display uppercase tracking-wider">
+                        <span>Last 7 Days</span>
+                        <span>Average: <span id="avg-mood">-</span></span>
+                    </div>
+                </div>
+
+                <!-- Entries List -->
+                <div>
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="font-serif text-2xl text-earth">Recent Entries</h3>
+                        <button onclick="clearAll()" class="text-sm text-red-400 hover:text-red-600 transition">Clear All</button>
+                    </div>
+                    
+                    <div id="entries-list" class="space-y-4">
+                        <!-- Entries injected here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+        
+        let selectedTags = [];
+        let entries = JSON.parse(localStorage.getItem('hope_harbor_entries') || '[]');
+        
+        // Initialize
+        renderEntries();
+        updateChart();
+        
+        function selectMood(level, btn) {
+            document.getElementById('mood-value').value = level;
+            document.querySelectorAll('.mood-btn').forEach(b => {
+                b.classList.remove('selected', 'ring-2', 'ring-sage-400');
+            });
+            btn.classList.add('selected', 'ring-2', 'ring-sage-400');
+        }
+        
+        function toggleTag(btn, tag) {
+            if (selectedTags.includes(tag)) {
+                selectedTags = selectedTags.filter(t => t !== tag);
+                btn.classList.remove('bg-sage-100', 'border-sage-500', 'text-sage-800');
+                btn.classList.add('border-sage-200', 'text-earth/70');
+            } else {
+                selectedTags.push(tag);
+                btn.classList.add('bg-sage-100', 'border-sage-500', 'text-sage-800');
+                btn.classList.remove('border-sage-200', 'text-earth/70');
+            }
+            document.getElementById('entry-tags').value = JSON.stringify(selectedTags);
+        }
+        
+        function saveEntry(e) {
+            e.preventDefault();
+            
+            const mood = document.getElementById('mood-value').value;
+            if (!mood) {
+                alert('Please select your mood');
+                return;
+            }
+            
+            const entry = {
+                id: Date.now(),
+                mood: parseInt(mood),
+                title: document.getElementById('entry-title').value,
+                content: document.getElementById('entry-content').value,
+                tags: selectedTags,
+                date: new Date().toISOString()
+            };          
+            entries.unshift(entry);     
+            localStorage.setItem('hope_harbor_entries', JSON.stringify(entries));
+            renderEntries();    
+
+
+
+            // Reset form        e.target.reset();
+            document.getElementById('mood-value').value = '';           
+
+
+                

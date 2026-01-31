@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guidance & Resources | Hope Harbor</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@300;400;500;600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['"Cormorant Garamond"', 'serif'],
+                        sans: ['"Inter"', 'sans-serif'],
+                        display: ['"DM Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        sage: {
+                            50: '#f4f7f4',
+                            100: '#e3ebe3',
+                            200: '#c5d9c5',
+                            300: '#9bbd9b',
+                            500: '#6b9b6b',
+                            700: '#4a6b4a',
+                            900: '#2d422d',
+                        },
+                        clay: {
+                            50: '#faf6f3',
+                            100: '#f0e6dd',
+                            200: '#e6d0c0',
+                            500: '#c98f6d',
+                            700: '#a66d4d',
+                        },
+                        lavender: {
+                            50: '#f8f8fc',
+                            100: '#f0f0f9',
+                            200: '#d8d8f0',
+                            300: '#b8b8e0',
+                            500: '#8a8ac4',
+                            700: '#6b6b9e',
+                        },
+                        earth: '#1a1a1a',
+                        cream: '#faf9f7',
+                    },
+                    animation: {
+                        'breathe': 'breathe 8s ease-in-out infinite',
+                        'float': 'float 12s ease-in-out infinite',
+                        'reveal': 'reveal 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards',
+                        'slide-up': 'slideUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards',
+                    },
+                    keyframes: {
+                        breathe: {
+                            '0%, 100%': { transform: 'scale(1)', opacity: '0.8' },
+                            '50%': { transform: 'scale(1.05)', opacity: '1' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
+                            '50%': { transform: 'translateY(-20px) rotate(2deg)' },
+                        },
+                        reveal: {
+                            '0%': { clipPath: 'inset(0 100% 0 0)' },
+                            '100%': { clipPath: 'inset(0 0% 0 0)' },
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(100px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        .custom-cursor {
+            width: 20px;
+            height: 20px;
+            border: 1.5px solid #6b9b6b;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.15s ease, opacity 0.15s ease;
+            mix-blend-mode: difference;
+        }
+        
+        .cursor-hover {
+            transform: scale(2.5);
+            background: rgba(107, 155, 107, 0.1);
+            border-color: transparent;
+        }
+
+        ::selection {
+            background: #d8d8f0;
+            color: #1a1a1a;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #faf9f7;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #c5d9c5;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #9bbd9b;
+        }
+
+        .gradient-mesh {
+            background: 
+                radial-gradient(at 0% 0%, hsla(120,20%,90%,1) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, hsla(30,40%,90%,1) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, hsla(240,30%,90%,1) 0px, transparent 50%),
+                radial-gradient(at 0% 100%, hsla(150,30%,92%,1) 0px, transparent 50%);
+            background-size: 100% 100%;
+        }
+
+        .reveal-text {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .reveal-text.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .magnetic-btn {
+            transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .grain-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        .nav-blur {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            background: rgba(250, 249, 247, 0.8);
+        }
+
+        .hover-lift {
+            transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .hover-lift:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
+        }
+
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .custom-cursor { display: none; }
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        .accordion-content.active {
+            max-height: 500px;
+        }
+    </style>
+</head>
+<body class="bg-cream text-earth font-sans antialiased overflow-x-hidden">
+
+    <div class="grain-overlay"></div>
+    <div class="custom-cursor hidden md:block" id="cursor"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 nav-blur border-b border-sage-100/50 transition-all duration-500" id="navbar">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <a href="index.html" class="flex items-center space-x-3 group">
+                    <div class="w-10 h-10 rounded-full bg-sage-500 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+                        <i data-lucide="flower-2" class="w-5 h-5 text-white"></i>
+                    </div>
+                    <span class="font-serif text-2xl text-earth font-medium tracking-tight">Hope Harbor</span>
+                </a>
+
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="text-sm font-display font-medium text-earth/60 hover:text-sage-700 transition-colors relative group">
+                        Sanctuary
+                        <span class="absolute -bottom-1 left-0 w-0 h-px bg-sage-500 transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="support.html" class="text-sm font-display font-medium text-earth/60 hover:text-sage-700 transition-colors relative group">
+                        Support Tools
+                        <span class="absolute -bottom-1 left-0 w-0 h-px bg-sage-500 transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="resources.html" class="text-sm font-display font-medium text-earth/80 hover:text-sage-700 transition-colors relative group">
+                        Guidance
+                        <span class="absolute -bottom-1 left-0 w-0 h-px bg-sage-500 transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="about.html" class="text-sm font-display font-medium text-earth/60 hover:text-sage-700 transition-colors relative group">
+                        About
+                        <span class="absolute -bottom-1 left-0 w-0 h-px bg-sage-500 transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                </div>
+
+                <a href="#emergency" class="hidden md:flex items-center px-6 py-2.5 bg-red-600 text-white text-sm font-medium rounded-full hover:bg-red-700 transition-all duration-300 magnetic-btn">
+                    Emergency Help
+                </a>
+
+                <button class="md:hidden w-10 h-10 flex items-center justify-center" onclick="toggleMenu()">
+                    <i data-lucide="menu" class="w-6 h-6"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-cream border-t border-sage-100 absolute w-full">
+            <div class="px-6 py-8 space-y-4">
+                <a href="index.html" class="block text-2xl font-serif text-earth/60">Sanctuary</a>
+                <a href="support.html" class="block text-2xl font-serif text-earth/60">Support Tools</a>
+                <a href="resources.html" class="block text-2xl font-serif text-earth">Guidance</a>
+                <a href="about.html" class="block text-2xl font-serif text-earth/60">About</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-[60vh] flex items-center gradient-mesh pt-20">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 w-full py-20">
+            <div class="max-w-3xl">
+                <div class="inline-flex items-center px-4 py-2 rounded-full bg-white/60 border border-sage-200 mb-8 reveal-text">
+                    <i data-lucide="book-open" class="w-4 h-4 text-sage-600 mr-2"></i>
+                    <span class="text-sm font-display font-medium text-sage-700">Understanding & Healing</span>
+                </div>
+                
+                <h1 class="font-serif text-5xl md:text-7xl leading-[0.95] text-earth mb-8 tracking-tight reveal-text" style="transition-delay: 100ms;">
+                    Knowledge is <span class="italic text-sage-700">power</span>
+                </h1>
+                
+                <p class="text-lg md:text-xl text-earth/70 max-w-2xl leading-relaxed mb-10 reveal-text" style="transition-delay: 200ms;">
+                    Understanding depression is the first step toward healing. Here you'll find evidence-based information, professional resources, and pathways to support.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Understanding Depression Section -->
+    <section class="py-32 bg-white">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="mb-20 text-center max-w-3xl mx-auto">
+                <span class="text-sage-600 font-display text-sm uppercase tracking-widest mb-4 block reveal-text">Understanding</span>
+                <h2 class="font-serif text-4xl md:text-6xl text-earth mb-6 reveal-text">What is Depression?</h2>
+                <p class="text-lg text-earth/70 leading-relaxed reveal-text">
+                    Depression is a complex medical condition affecting mood, thinking, and physical health. It is not a sign of weakness or a condition one can simply "snap out" of.
+                </p>
+            </div>
+
+            <div class="bento-grid mb-16">
+                <div class="col-span-12 md:col-span-6 bg-sage-50 rounded-3xl p-8 md:p-10 border border-sage-100 reveal-text">
+                    <div class="w-12 h-12 rounded-2xl bg-sage-200 flex items-center justify-center mb-6">
+                        <i data-lucide="activity" class="w-6 h-6 text-sage-700"></i>
+                    </div>
+                    <h3 class="font-serif text-2xl text-earth mb-4">Common Symptoms</h3>
+                    <ul class="space-y-3 text-earth/70">
+                        <li class="flex items-start gap-3">
+                            <span class="w-1.5 h-1.5 rounded-full bg-sage-400 mt-2 flex-shrink-0"></span>
+                            <span>Persistent sadness or emptiness lasting weeks</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="w-1.5 h-1.5 rounded-full bg-sage-400 mt-2 flex-shrink-0"></span>
+                            <span>Loss of interest in previously enjoyed activities</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="w-1.5 h-1.5 rounded-full bg-sage-400 mt-2 flex-shrink-0"></span>
+                            <span>Significant changes in sleep or appetite</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="w-1.5 h-1.5 rounded-full bg-sage-400 mt-2 flex-shrink-0"></span>
+                            <span>Difficulty concentrating or making decisions</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="w-1.5 h-1.5 rounded-full bg-sage-400 mt-2 flex-shrink-0"></span>
+                            <span>Feelings of worthlessness or excessive guilt</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="col-span-12 md:col-span-6 bg-lavender-50 rounded-3xl p-8 md:p-10 border border-lavender-200 reveal-text" style="transition-delay: 100ms;">
+                    <div class="w-12 h-12 rounded-2xl bg-lavender-200 flex items-center justify-center mb-6">
+                        <i data-lucide="search" class="w-6 h-6 text-lavender-700"></i>
+                    </div>
+                    <h3 class="font-serif text-2xl text-earth mb-4">Potential Causes</h3>
+                    <ul class="space-y-3 text-earth/70">
+                        <li class="flex items-start gap-3">
+                            <span class="w-1.5 h-1.5 rounded-full bg-lavender-400 mt-2 flex-shrink-0"></span>
+                            <span>Biological: Chemical imbalances in the brain</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="w-1.5 h-1.5 rounded-full bg-lavender-400 mt-2 flex-shrink-0"></span>
+                            <span>Genetic: Family history of depression</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="w-1.5 h-1.5 rounded-full bg-lavender-400 mt-2 flex-shrink-0"></span>
+                            <span>Environmental: Trauma, stress, or major life changes</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="w-1.5 h-1.5 rounded-full bg-lavender-400 mt-2 flex-shrink-0"></span>
+                            <span>Medical: Chronic illness, certain medications</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="w-1.5 h-1.5 rounded-full bg-lavender-400 mt-2 flex-shrink-0"></span>
+                            <span>Hormonal: Postpartum, thyroid issues, menopause</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Accordion for Types -->
+            <div class="max-w-3xl mx-auto space-y-4 reveal-text">
+                <h3 class="font-serif text-3xl text-earth mb-8 text-center">Types of Depression</h3>
+                
+                <div class="border border-sage-200 rounded-2xl bg-white overflow-hidden">
+                    <button class="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-sage-50 transition-colors" onclick="toggleAccordion(this)">
+                        <span class="font-display font-medium text-earth">Major Depressive Disorder (MDD)</span>
+                        <i data-lucide="chevron-down" class="w-5 h-5 text-earth/50 transition-transform"></i>
+                    </button>
+                    <div class="accordion-content px-6">
+                        <p class="pb-4 text-earth/70">The most common form, characterized by persistent feelings of sadness, hopelessness, and loss of interest in activities. Episodes typically last two weeks or more and significantly impair daily functioning.</p>
+                    </div>
+                </div>
+
+                <div class="border border-sage-200 rounded-2xl bg-white overflow-hidden">
+                    <button class="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-sage-50 transition-colors" onclick="toggleAccordion(this)">
+                        <span class="font-display font-medium text-earth">Persistent Depressive Disorder (Dysthymia)</span>
+                        <i data-lucide="chevron-down" class="w-5 h-5 text-earth/50 transition-transform"></i>
+                    </button>
+                    <div class="accordion-content px-6">
+                        <p class="pb-4 text-earth/70">A chronic form of depression lasting at least two years. Symptoms may be less severe than MDD but persist longer, often feeling like a constant background of low mood.</p>
+                    </div>
+                </div>
+
+                <div class="border border-sage-200 rounded-2xl bg-white overflow-hidden">
+                    <button class="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-sage-50 transition-colors" onclick="toggleAccordion(this)">
+                        <span class="font-display font-medium text-earth">Bipolar Disorder</span>
+                        <i data-lucide="chevron-down" class="w-5 h-5 text-earth/50 transition-transform"></i>
+                    </button>
+                    <div class="accordion-content px-6">
+                        <p class="pb-4 text-earth/70">Characterized by alternating periods of depression and mania (elevated mood). The depressive episodes mirror MDD, while manic phases involve increased energy and decreased need for sleep.</p>
+                    </div>
+                </div>
+
+                <div class="border border-sage-200 rounded-2xl bg-white overflow-hidden">
+                    <button class="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-sage-50 transition-colors" onclick="toggleAccordion(this)">
+                        <span class="font-display font-medium text-earth">Seasonal Affective Disorder (SAD)</span>
+                        <i data-lucide="chevron-down" class="w-5 h-5 text-earth/50 transition-transform"></i>
+                    </button>
+                    <div class="accordion-content px-6">
+                        <p class="pb-4 text-earth/70">Depression related to seasonal changes, typically beginning in fall and continuing through winter. Linked to reduced sunlight affecting serotonin and melatonin levels.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ways to Overcome -->
+    <section class="py-32 bg-cream">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-16">
+                <div class="reveal-text">
+                    <span class="text-sage-600 font-display text-sm uppercase tracking-widest mb-4 block">Recovery</span>
+                    <h2 class="font-serif text-4xl md:text-5xl text-earth mb-8">Evidence-Based Treatments</h2>
+                    
+                    <div class="space-y-6">
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-sage-100 hover-lift">
+                            <div class="flex items-center gap-4 mb-3">
+                                <div class="w-10 h-10 rounded-full bg-sage-100 flex items-center justify-center">
+                                    <i data-lucide="message-circle" class="w-5 h-5 text-sage-600"></i>
+                                </div>
+                                <h3 class="font-display font-medium text-lg text-earth">Psychotherapy (Talk Therapy)</h3>
+                            </div>
+                            <p class="text-earth/70 text-sm leading-relaxed pl-14">
+                                Cognitive Behavioral Therapy (CBT), Interpersonal Therapy (IPT), and Psychodynamic Therapy help identify thought patterns and develop coping strategies.
+                            </p>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-sage-100 hover-lift">
+                            <div class="flex items-center gap-4 mb-3">
+                                <div class="w-10 h-10 rounded-full bg-lavender-100 flex items-center justify-center">
+                                    <i data-lucide="pill" class="w-5 h-5 text-lavender-600"></i>
+                                </div>
+                                <h3 class="font-display font-medium text-lg text-earth">Medication</h3>
+                            </div>
+                            <p class="text-earth/70 text-sm leading-relaxed pl-14">
+                                Antidepressants can help correct chemical imbalances. SSRIs, SNRIs, and atypical antidepressants require medical supervision and typically take 4-6 weeks to show full effects.
+                            </p>
+                        </div>
+
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-sage-100 hover-lift">
+                            <div class="flex items-center gap-4 mb-3">
+                                <div class="w-10 h-10 rounded-full bg-clay-100 flex items-center justify-center">
+                                    <i data-lucide="zap" class="w-5 h-5 text-clay-600"></i>
+                                </div>
+                                <h3 class="font-display font-medium text-lg text-earth">Brain Stimulation Therapies</h3>
+                            </div>
+                            <p class="text-earth/70 text-sm leading-relaxed pl-14">
+                                For treatment-resistant depression, options include Electroconvulsive Therapy (ECT), Transcranial Magnetic Stimulation (TMS), and Vagus Nerve Stimulation.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="reveal-text" style="transition-delay: 200ms;">
+                    <div class="bg-earth rounded-3xl p-8 md:p-12 text-cream h-full">
+                        <h3 class="font-serif text-3xl mb-8">Lifestyle Interventions</h3>
+                        
+                        <div class="space-y-6">
+                            <div class="flex gap-4">
+                                <div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
+                                    <i data-lucide="trending-up" class="w-4 h-4 text-clay-200"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-display font-medium mb-1">Regular Exercise</h4>
+                                    <p class="text-cream/70 text-sm">30 minutes of moderate exercise three times weekly can be as effective as medication for mild depression.</p>
+                                </div>
+                            </div>
+
+                            <div class="flex gap-4">
+                                <div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
+                                    <i data-lucide="moon" class="w-4 h-4 text-clay-200"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-display font-medium mb-1">Sleep Hygiene</h4>
+                                    <p class="text-cream/70 text-sm">Consistent sleep schedules, limiting screen time before bed, and creating a restful environment support mood regulation.</p>
+                                </div>
+                            </div>
+
+                            <div class="flex gap-4">
+                                <div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
+                                    <i data-lucide="users" class="w-4 h-4 text-clay-200"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-display font-medium mb-1">Social Connection</h4>
+                                    <p class="text-cream/70 text-sm">Isolation worsens depression. Even brief interactions with friends, family, or support groups provide protective benefits.</p>
+                                </div>
+                            </div>
+
+                            <div class="flex gap-4">
+                                <div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0">
+                                    <i data-lucide="sun" class="w-4 h-4 text-clay-200"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-display font-medium mb-1">Light Exposure</h4>
+                                    <p class="text-cream/70 text-sm">Morning sunlight helps regulate circadian rhythms and boost serotonin production.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-8 pt-8 border-t border-white/20">
+                            <p class="text-sm text-cream/60 italic">"Recovery is not linear. Be patient with your progress."</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Emergency Resources -->
+    <section id="emergency" class="py-32 bg-red-50">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal-text">
+                <div class="inline-flex items-center px-4 py-2 rounded-full bg-red-100 border border-red-200 mb-6">
+                    <i data-lucide="alert-circle" class="w-4 h-4 text-red-600 mr-2"></i>
+                    <span class="text-sm font-display font-medium text-red-700">Immediate Support</span>
+                </div>
+                <h2 class="font-serif text-4xl md:text-6xl text-earth mb-6">You Are Not Alone</h2>
+                <p class="text-lg text-earth/70">
+                    If you're in crisis, help is available right now. These resources are free, confidential, and available 24/7.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white rounded-3xl p-8 border border-red-100 shadow-lg hover-lift reveal-text">
+                    <div class="w-14 h-14 rounded-2xl bg-red-100 flex items-center justify-center mb-6">
+                        <i data-lucide="phone" class="w-7 h-7 text-red-600"></i>
+                    </div>
+                    <h3 class="font-serif text-2xl text-earth mb-2">988 Suicide & Crisis Lifeline</h3>
+                    <p class="text-3xl font-display font-bold text-red-600 mb-4">988</p>
+                    <p class="text-earth/70 mb-6">Call or text 24/7 for free, confidential support for people in distress.</p>
+                    <a href="tel:988" class="inline-flex items-center px-6 py-3 bg-red-600 text-white rounded-full font-display font-medium hover:bg-red-700 transition-all w-full justify-center">
+                        Call Now
+                    </a>
+                </div>
+
+                <div class="bg-white rounded-3xl p-8 border border-red-100 shadow-lg hover-lift reveal-text" style="transition-delay: 100ms;">
+                    <div class="w-14 h-14 rounded-2xl bg-orange-100 flex items-center justify-center mb-6">
+                        <i data-lucide="message-square" class="w-7 h-7 text-orange-600"></i>
+                    </div>
+                    <h3 class="font-serif text-2xl text-earth mb-2">Crisis Text Line</h3>
+                    <p class="text-3xl font-display font-bold text-orange-600 mb-4">741741</p>
+                    <p class="text-earth/70 mb-6">Text HOME to connect with a trained crisis counselor. Available 24/7.</p>
+                    <button onclick="alert('Text HOME to 741741 to connect with a crisis counselor')" class="inline-flex items-center px-6 py-3 bg-orange-600 text-white rounded-full font-display font-medium hover:bg-orange-700 transition-all w-full justify-center">
+                        Text HOME
+                    </button>
+                </div>
+
+                <div class="bg-white rounded-3xl p-8 border border-red-100 shadow-lg hover-lift reveal-text" style="transition-delay: 200ms;">
+                    <div class="w-14 h-14 rounded-2xl bg-blue-100 flex items-center justify-center mb-6">
+                        <i data-lucide="globe" class="w-7 h-7 text-blue-600"></i>
+                    </div>
+                    <h3 class="font-serif text-2xl text-earth mb-2">International Association</h3>
+                    <p class="text-lg font-display font-bold text-blue-600 mb-4">FindaHelpline.com</p>
+                    <p class="text-earth/70 mb-6">Database of international helplines organized by country and crisis type.</p>
+                    <a href="https://findahelpline.com" target="_blank" class="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-full font-display font-medium hover:bg-blue-700 transition-all w-full justify-center">
+                        Visit Website
+                    </a>
+                </div>
+            </div>
+
+            <div class="mt-12 bg-white rounded-2xl p-8 border border-red-100 reveal-text">
+                <div class="flex items-start gap-4">
+                    <div class="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0">
+                        <i data-lucide="shield" class="w-6 h-6 text-red-600"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-display font-medium text-lg text-earth mb-2">If you're in immediate danger:</h3>
+                        <p class="text-earth/70 mb-4">Call your local emergency number (911 in the US) or go to your nearest emergency room. Mental health crises are medical emergencies deserving of immediate professional attention.</p>
+                        <p class="text-sm text-earth/50">If you're outside the US, find your country's helpline at findahelpline.com</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Helpful Articles -->
+    <section class="py-32 bg-white">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-sage-600 font-display text-sm uppercase tracking-widest mb-4 block reveal-text">Further Reading</span>
+                <h2 class="font-serif text-4xl md:text-5xl text-earth mb-6 reveal-text">Helpful Resources</h2>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <article class="group cursor-pointer reveal-text">
+                    <div class="aspect-[4/3] rounded-2xl overflow-hidden mb-4 bg-sage-100">
+                        <div class="w-full h-full bg-gradient-to-br from-sage-200 to-sage-300 group-hover:scale-105 transition-transform duration-500 flex items-center justify-center">
+                            <i data-lucide="brain-circuit" class="w-12 h-12 text-sage-600 opacity-50"></i>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="text-xs font-display font-medium text-sage-600 uppercase tracking-wider">Science</span>
+                        <span class="w-1 h-1 rounded-full bg-earth/30"></span>
+                        <span class="text-xs text-earth/50">5 min read</span>
+                    </div>
+                    <h3 class="font-serif text-xl text-earth mb-2 group-hover:text-sage-700 transition-colors">The Neuroscience of Depression</h3>
+                    <p class="text-earth/60 text-sm line-clamp-2">Understanding how depression affects brain chemistry and structure can reduce self-blame and stigma.</p>
+                </article>
+
+                <article class="group cursor-pointer reveal-text" style="transition-delay: 100ms;">
+                    <div class="aspect-[4/3] rounded-2xl overflow-hidden mb-4 bg-lavender-100">
+                        <div class="w-full h-full bg-gradient-to-br from-lavender-200 to-lavender-300 group-hover:scale-105 transition-transform duration-500 flex items-center justify-center">
+                            <i data-lucide="heart" class="w-12 h-12 text-lavender-600 opacity-50"></i>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="text-xs font-display font-medium text-lavender-600 uppercase tracking-wider">Relationships</span>
+                        <span class="w-1 h-1 rounded-full bg-earth/30"></span>
+                        <span class="text-xs text-earth/50">8 min read</span>
+                    </div>
+                    <h3 class="font-serif text-xl text-earth mb-2 group-hover:text-lavender-700 transition-colors">Supporting a Loved One</h3>
+                    <p class="text-earth/60 text-sm line-clamp-2">Practical guidance for family and friends on how to help without minimizing or overwhelming.</p>
+                </article>
+
+                <article class="group cursor-pointer reveal-text" style="transition-delay: 200ms;">
+                    <div class="aspect-[4/3] rounded-2xl overflow-hidden mb-4 bg-clay-100">
+                        <div class="w-full h-full bg-gradient-to-br from-clay-200 to-clay-300 group-hover:scale-105 transition-transform duration-500 flex items-center justify-center">
+                            <i data-lucide="briefcase" class="w-12 h-12 text-clay-600 opacity-50"></i>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="text-xs font-display font-medium text-clay-600 uppercase tracking-wider">Work</span>
+                        <span class="w-1 h-1 rounded-full bg-earth/30"></span>
+                        <span class="text-xs text-earth/50">6 min read</span>
+                    </div>
+                    <h3 class="font-serif text-xl text-earth mb-2 group-hover:text-clay-700 transition-colors">Depression & Employment</h3>
+                    <p class="text-earth/60 text-sm line-clamp-2">Navigating workplace accommodations, disability rights, and maintaining professional life during recovery.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-earth text-cream pt-20 pb-10">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-12 mb-16">
+                <div class="col-span-2">
+                    <div class="flex items-center space-x-3 mb-6">
+                        <div class="w-10 h-10 rounded-full bg-sage-500 flex items-center justify-center">
+                            <i data-lucide="flower-2" class="w-5 h-5 text-white"></i>
+                        </div>
+                        <span class="font-serif text-2xl font-medium">Hope Harbor</span>
+                    </div>
+                    <p class="text-cream/60 max-w-sm leading-relaxed">
+                        A sanctuary for those navigating the complexities of mental health. You don't have to walk this path alone.
+                    </p>
+                </div>
+                
+                <div>
+                    <h4 class="font-display font-medium mb-4 text-cream/40 text-sm uppercase tracking-widest">Navigate</h4>
+                    <ul class="space-y-3">
+                        <li><a href="index.html" class="text-cream/80 hover:text-white transition-colors">Sanctuary</a></li>
+                        <li><a href="support.html" class="text-cream/80 hover:text-white transition-colors">Support Tools</a></li>
+                        <li><a href="resources.html" class="text-cream/80 hover:text-white transition-colors">Guidance</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-display font-medium mb-4 text-cream/40 text-sm uppercase tracking-widest">Emergency</h4>
+                    <ul class="space-y-3">
+                        <li class="text-cream font-medium">988 Suicide Lifeline</li>
+                        <li class="text-cream/60 text-sm">Call or text 24/7</li>
+                        <li class="text-cream/60 text-sm">Text HOME to 741741</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-cream/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-cream/40 text-sm">© 2025 Hope Harbor. All rights reserved.</p>
+                <p class="text-cream/40 text-sm italic">Not a substitute for professional medical advice.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize Lucide
+        lucide.createIcons();
+
+        // Custom Cursor
+        const cursor = document.getElementById('cursor');
+        const isTouchDevice = window.matchMedia('(pointer: coarse)').matches;
+        
+        if (!isTouchDevice && cursor) {
+            document.addEventListener('mousemove', (e) => {
+                cursor.style.left = e.clientX - 10 + 'px';
+                cursor.style.top = e.clientY - 10 + 'px';
+            });
+
+            document.querySelectorAll('a, button, .magnetic-btn').forEach(el => {
+                el.addEventListener('mouseenter', () => cursor.classList.add('cursor-hover'));
+                el.addEventListener('mouseleave', () => cursor.classList.remove('cursor-hover'));
+            });
+        }
+
+        // Scroll Reveal Animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal-text').forEach(el => observer.observe(el));
+
+        // Mobile Menu Toggle
+        function toggleMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Accordion Toggle
+        function toggleAccordion(btn) {
+            const content = btn.nextElementSibling;
+            const icon = btn.querySelector('i');
+            
+            content.classList.toggle('active');
+            if (content.classList.contains('active')) {
+                icon.style.transform = 'rotate(180deg)';
+            } else {
+                icon.style.transform = 'rotate(0deg)';
+            }
+        }
+    </script>
+</body>
+</html>

@@ -221,20 +221,166 @@
             
             const entry = {
                 id: Date.now(),
+                date: new Date().toISOString(),
                 mood: parseInt(mood),
-                title: document.getElementById('entry-title').value,
+                title: document.getElementById('entry-title').value || 'Untitled',
                 content: document.getElementById('entry-content').value,
-                tags: selectedTags,
-                date: new Date().toISOString()
-            };          
-            entries.unshift(entry);     
+                tags: selectedTags
+            };
+            
+            entries.unshift(entry);
             localStorage.setItem('hope_harbor_entries', JSON.stringify(entries));
-            renderEntries();    
-
-
-
-            // Reset form        e.target.reset();
-            document.getElementById('mood-value').value = '';           
-
-
+            
+            // Reset form
+            document.getElementById('journal-form').reset();
+            document.getElementById('mood-value').value = '';
+            document.querySelectorAll('.mood-btn').forEach(b => {
+                b.classList.remove('selected', 'ring-2', 'ring-sage-400');
+            });
+            document.querySelectorAll('#tag-container button').forEach(b => {
+                b.classList.remove('bg-sage-100', 'border-sage-500', 'text-sage-800');
+                b.classList.add('border-sage-200', 'text-earth/70');
+            });
+            selectedTags = [];
+            
+            renderEntries();
+            updateChart();
+        }
+        
+        function renderEntries() {
+            const container = document.getElementById('entries-list');
+            
+            if (entries.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-16 text-earth/40">
+                        <i data-lucide="book-open" class="w-12 h-12 mx-auto mb-4 opacity-50"></i>
+                        <p class="text-lg">Your journal is waiting for your first entry.</p>
+                    </div>
+                `;
+                lucide.createIcons();
+                return;
+            }
+            
+            container.innerHTML = entries.map(entry => {
+                const date = new Date(entry.date);
+                const moodEmojis = ['', '😢', '😕', '😐', '🙂', '😄'];
+                const moodColors = ['', 'bg-red-50 border-red-200', 'bg-orange-50 border-orange-200', 
+                                    'bg-yellow-50 border-yellow-200', 'bg-blue-50 border-blue-200', 
+                                    'bg-green-50 border-green-200'];
                 
+                return `
+                    <div class="entry-card bg-white rounded-2xl p-6 shadow-sm border border-sage-100">
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="flex items-center gap-3">
+                                <div class="${moodColors[entry.mood]} border rounded-xl w-12 h-12 flex items-center justify-center text-2xl">
+                                    ${moodEmojis[entry.mood]}
+                                </div>
+                                <div>
+                                    <h4 class="font-serif text-xl text-earth">${entry.title}</h4>
+                                    <p class="text-xs text-earth/40 font-display mt-1">
+                                        ${date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' })}
+                                        at ${date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}
+                                    </p>
+                                </div>
+                            </div>
+                            <button onclick="deleteEntry(${entry.id})" class="text-earth/30 hover:text-red-500 transition">
+                                <i data-lucide="trash-2" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                        
+                        <p class="text-earth/70 leading-relaxed mb-4">${entry.content}</p>
+                        
+                        ${entry.tags.length > 0 ? `
+                            <div class="flex flex-wrap gap-2">
+                                ${entry.tags.map(tag => `
+                                    <span class="px-3 py-1 bg-sage-50 text-sage-700 rounded-full text-xs font-medium">
+                                        ${tag}
+                                    </span>
+                                `).join('')}
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            }).join('');
+            
+            lucide.createIcons();
+        }
+        
+        function updateChart() {
+            const chartContainer = document.getElementById('mood-chart');
+            const last7Days = entries.slice(0, 7).reverse();
+            
+            if (last7Days.length === 0) {
+                chartContainer.innerHTML = `
+                    <div class="w-full h-full flex items-center justify-center text-earth/40 text-sm">
+                        No entries yet. Start journaling to see patterns.
+                    </div>
+                `;
+                document.getElementById('avg-mood').textContent = '-';
+                return;
+            }
+            
+            const maxMood = 5;
+            const avgMood = (last7Days.reduce((sum, e) => sum + e.mood, 0) / last7Days.length).toFixed(1);
+            const moodEmojis = ['', '😢', '😕', '😐', '🙂', '😄'];
+            
+            document.getElementById('avg-mood').textContent = `${avgMood} ${moodEmojis[Math.round(avgMood)]}`;
+            
+            chartContainer.innerHTML = last7Days.map((entry, i) => {
+                const height = (entry.mood / maxMood) * 100;
+                const colors = ['', 'bg-red-400', 'bg-orange-400', 'bg-yellow-400', 'bg-blue-400', 'bg-green-400'];
+                const date = new Date(entry.date);
+                
+                return `
+                    <div class="flex-1 flex flex-col items-center gap-2">
+                        <div class="w-full relative flex items-end" style="height: 100%;">
+                            <div class="mood-bar w-full ${colors[entry.mood]} rounded-t-lg transition-all" 
+                                 style="height: ${height}%;"
+                                 title="${entry.title} - ${moodEmojis[entry.mood]}">
+                            </div>
+                        </div>
+                        <span class="text-xs text-earth/40 font-display">
+                            ${date.toLocaleDateString('en-US', { weekday: 'short' })}
+                        </span>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        function deleteEntry(id) {
+            if (!confirm('Delete this entry? This cannot be undone.')) return;
+            
+            entries = entries.filter(e => e.id !== id);
+            localStorage.setItem('hope_harbor_entries', JSON.stringify(entries));
+            renderEntries();
+            updateChart();
+        }
+        
+        function clearAll() {
+            if (!confirm('Clear all entries? This cannot be undone.')) return;
+            
+            entries = [];
+            localStorage.setItem('hope_harbor_entries', JSON.stringify(entries));
+            renderEntries();
+            updateChart();
+        }
+        
+        function exportData() {
+            if (entries.length === 0) {
+                alert('No entries to export');
+                return;
+            }
+            
+            const dataStr = JSON.stringify(entries, null, 2);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `hope-harbor-journal-${new Date().toISOString().split('T')[0]}.json`;
+            link.click();
+            URL.revokeObjectURL(url);
+        }
+    </script>
+
+</body>
+</html>

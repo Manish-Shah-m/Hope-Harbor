@@ -193,6 +193,19 @@
             grid-template-columns: repeat(12, 1fr);
             gap: 2rem;
         }
+
+        /* Tab System */
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
         
         @media (max-width: 768px) {
             .custom-cursor { display: none; }
@@ -412,65 +425,285 @@
         </div>
     </section>
 
-    <!-- Do's and Don'ts -->
-    <section class="py-32 bg-white">
-        <div class="max-w-7xl mx-auto px-6 lg:px-8">
-            <div class="grid md:grid-cols-2 gap-16">
-                
-                <!-- Do's -->
-                <div class="reveal-text">
-                    <div class="flex items-center gap-3 mb-8">
-                        <div class="w-12 h-12 rounded-full bg-sage-100 flex items-center justify-center">
-                            <i data-lucide="check" class="w-6 h-6 text-sage-700"></i>
+    <!-- Navigation & Support Section - REDESIGNED -->
+    <section class="py-32 bg-white relative overflow-hidden">
+        <div class="absolute inset-0 opacity-5">
+            <div class="absolute top-0 right-0 w-96 h-96 bg-sage-300 rounded-full blur-3xl"></div>
+            <div class="absolute bottom-0 left-0 w-96 h-96 bg-lavender-300 rounded-full blur-3xl"></div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 relative">
+            <div class="mb-16 text-center max-w-2xl mx-auto">
+                <span class="text-sage-600 font-display text-sm uppercase tracking-widest mb-4 block reveal-text">Your Journey</span>
+                <h2 class="font-serif text-4xl md:text-6xl text-earth mb-6 reveal-text">Navigating Forward</h2>
+                <p class="text-lg text-earth/70 leading-relaxed reveal-text">
+                    Small intentional choices create momentum. Here's how to move through depression with compassion and wisdom.
+                </p>
+            </div>
+
+            <!-- Tab Navigation -->
+            <div class="flex justify-center mb-12 reveal-text">
+                <div class="inline-flex p-2 bg-cream rounded-full border border-sage-200">
+                    <button onclick="switchTab('pathways')" id="tab-pathways" class="tab-btn px-8 py-3 rounded-full font-display font-medium text-sm transition-all bg-sage-500 text-white">
+                        Pathways Forward
+                    </button>
+                    <button onclick="switchTab('avoid')" id="tab-avoid" class="tab-btn px-8 py-3 rounded-full font-display font-medium text-sm transition-all text-earth/60 hover:text-earth">
+                        What to Avoid
+                    </button>
+                </div>
+            </div>
+
+            <!-- Pathways Tab -->
+            <div id="content-pathways" class="tab-content active">
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="group bg-gradient-to-br from-sage-50 to-white rounded-3xl p-8 border-2 border-sage-100 hover:border-sage-300 transition-all duration-500 hover-lift reveal-text">
+                        <div class="w-16 h-16 rounded-2xl bg-sage-200 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500">
+                            <i data-lucide="stethoscope" class="w-8 h-8 text-sage-700"></i>
                         </div>
-                        <h3 class="font-serif text-3xl text-earth">Pathways Forward</h3>
+                        <h3 class="font-serif text-2xl text-earth mb-4">Seek Professional Guidance</h3>
+                        <p class="text-earth/70 leading-relaxed mb-6">
+                            Therapy and medication are evidence-based treatments, not signs of weakness. Mental health professionals provide tools and support you can't access alone.
+                        </p>
+                        <div class="flex items-center text-sm text-sage-700 font-medium">
+                            <span>Explore options</span>
+                            <i data-lucide="arrow-right" class="w-4 h-4 ml-2 group-hover:translate-x-2 transition-transform"></i>
+                        </div>
                     </div>
-                    
-                    <div class="space-y-6">
-                        <div class="group p-6 rounded-2xl bg-sage-50/50 hover:bg-sage-50 transition-colors duration-300 border-l-2 border-sage-300">
-                            <h4 class="font-display font-medium text-earth mb-2">Seek Professional Guidance</h4>
-                            <p class="text-earth/70 text-sm leading-relaxed">Therapy and medication are evidence-based treatments, not signs of weakness.</p>
+
+                    <div class="group bg-gradient-to-br from-clay-50 to-white rounded-3xl p-8 border-2 border-clay-100 hover:border-clay-300 transition-all duration-500 hover-lift reveal-text" style="transition-delay: 100ms;">
+                        <div class="w-16 h-16 rounded-2xl bg-clay-200 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500">
+                            <i data-lucide="calendar-check" class="w-8 h-8 text-clay-700"></i>
                         </div>
-                        
-                        <div class="group p-6 rounded-2xl bg-sage-50/50 hover:bg-sage-50 transition-colors duration-300 border-l-2 border-sage-300">
-                            <h4 class="font-display font-medium text-earth mb-2">Maintain Routine Anchors</h4>
-                            <p class="text-earth/70 text-sm leading-relaxed">Simple structures—waking at the same time, showering—create stability when emotions feel chaotic.</p>
+                        <h3 class="font-serif text-2xl text-earth mb-4">Maintain Routine Anchors</h3>
+                        <p class="text-earth/70 leading-relaxed mb-6">
+                            Simple structures create stability when emotions feel chaotic. Consistent wake times, meals, and small rituals become lifelines during turbulent periods.
+                        </p>
+                        <div class="flex items-center text-sm text-clay-700 font-medium">
+                            <span>Build your routine</span>
+                            <i data-lucide="arrow-right" class="w-4 h-4 ml-2 group-hover:translate-x-2 transition-transform"></i>
                         </div>
-                        
-                        <div class="group p-6 rounded-2xl bg-sage-50/50 hover:bg-sage-50 transition-colors duration-300 border-l-2 border-sage-300">
-                            <h4 class="font-display font-medium text-earth mb-2">Practice Self-Compassion</h4>
-                            <p class="text-earth/70 text-sm leading-relaxed">Speak to yourself as you would a dear friend. You are learning, not failing.</p>
+                    </div>
+
+                    <div class="group bg-gradient-to-br from-lavender-50 to-white rounded-3xl p-8 border-2 border-lavender-100 hover:border-lavender-300 transition-all duration-500 hover-lift reveal-text" style="transition-delay: 200ms;">
+                        <div class="w-16 h-16 rounded-2xl bg-lavender-200 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500">
+                            <i data-lucide="heart" class="w-8 h-8 text-lavender-700"></i>
+                        </div>
+                        <h3 class="font-serif text-2xl text-earth mb-4">Practice Self-Compassion</h3>
+                        <p class="text-earth/70 leading-relaxed mb-6">
+                            Speak to yourself as you would a dear friend. You are learning and growing, not failing. Healing requires gentleness, not harsh judgment.
+                        </p>
+                        <div class="flex items-center text-sm text-lavender-700 font-medium">
+                            <span>Learn techniques</span>
+                            <i data-lucide="arrow-right" class="w-4 h-4 ml-2 group-hover:translate-x-2 transition-transform"></i>
                         </div>
                     </div>
                 </div>
 
-                <!-- Don'ts -->
-                <div class="reveal-text" style="transition-delay: 200ms;">
-                    <div class="flex items-center gap-3 mb-8">
-                        <div class="w-12 h-12 rounded-full bg-red-50 flex items-center justify-center">
-                            <i data-lucide="x" class="w-6 h-6 text-red-600"></i>
+                <div class="mt-12 grid md:grid-cols-2 gap-8">
+                    <div class="bg-white rounded-3xl p-8 border border-sage-200 reveal-text" style="transition-delay: 300ms;">
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-sage-100 flex items-center justify-center flex-shrink-0">
+                                <i data-lucide="users" class="w-6 h-6 text-sage-700"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-display font-semibold text-earth mb-2">Connect with Others</h4>
+                                <p class="text-earth/70 text-sm leading-relaxed">
+                                    Depression thrives in isolation. Even small interactions—texting a friend, joining a support group—combat the narrative that you're alone.
+                                </p>
+                            </div>
                         </div>
-                        <h3 class="font-serif text-3xl text-earth">Avoid These Traps</h3>
                     </div>
-                    
-                    <div class="space-y-6">
-                        <div class="group p-6 rounded-2xl bg-red-50/30 hover:bg-red-50/50 transition-colors duration-300 border-l-2 border-red-200">
-                            <h4 class="font-display font-medium text-earth mb-2">Isolation</h4>
-                            <p class="text-earth/70 text-sm leading-relaxed">Withdrawing intensifies depression. Connection, even when difficult, is medicinal.</p>
-                        </div>
-                        
-                        <div class="group p-6 rounded-2xl bg-red-50/30 hover:bg-red-50/50 transition-colors duration-300 border-l-2 border-red-200">
-                            <h4 class="font-display font-medium text-earth mb-2">Self-Medication</h4>
-                            <p class="text-earth/70 text-sm leading-relaxed">Alcohol and substances temporarily numb but ultimately deepen depressive episodes.</p>
-                        </div>
-                        
-                        <div class="group p-6 rounded-2xl bg-red-50/30 hover:bg-red-50/50 transition-colors duration-300 border-l-2 border-red-200">
-                            <h4 class="font-display font-medium text-earth mb-2">Catastrophizing</h4>
-                            <p class="text-earth/70 text-sm leading-relaxed">"This will never end" is a symptom, not a truth. Thoughts are not facts.</p>
+
+                    <div class="bg-white rounded-3xl p-8 border border-sage-200 reveal-text" style="transition-delay: 400ms;">
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-sage-100 flex items-center justify-center flex-shrink-0">
+                                <i data-lucide="sun" class="w-6 h-6 text-sage-700"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-display font-semibold text-earth mb-2">Move Your Body</h4>
+                                <p class="text-earth/70 text-sm leading-relaxed">
+                                    Physical activity releases endorphins and disrupts negative thought cycles. Start small—a 5-minute walk counts.
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <!-- Avoid Tab -->
+            <div id="content-avoid" class="tab-content">
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="group bg-gradient-to-br from-red-50 to-white rounded-3xl p-8 border-2 border-red-100 hover:border-red-200 transition-all duration-500 hover-lift">
+                        <div class="w-16 h-16 rounded-2xl bg-red-100 flex items-center justify-center mb-6">
+                            <i data-lucide="user-x" class="w-8 h-8 text-red-600"></i>
+                        </div>
+                        <h3 class="font-serif text-2xl text-earth mb-4">Isolation</h3>
+                        <p class="text-earth/70 leading-relaxed">
+                            Withdrawing intensifies depression's grip. Human connection is medicinal, even when reaching out feels impossible. Start with one person, one message.
+                        </p>
+                    </div>
+
+                    <div class="group bg-gradient-to-br from-orange-50 to-white rounded-3xl p-8 border-2 border-orange-100 hover:border-orange-200 transition-all duration-500 hover-lift">
+                        <div class="w-16 h-16 rounded-2xl bg-orange-100 flex items-center justify-center mb-6">
+                            <i data-lucide="wine" class="w-8 h-8 text-orange-600"></i>
+                        </div>
+                        <h3 class="font-serif text-2xl text-earth mb-4">Self-Medication</h3>
+                        <p class="text-earth/70 leading-relaxed">
+                            Alcohol and substances temporarily numb pain but ultimately deepen depressive episodes and delay real healing. Seek healthier coping strategies.
+                        </p>
+                    </div>
+
+                    <div class="group bg-gradient-to-br from-yellow-50 to-white rounded-3xl p-8 border-2 border-yellow-100 hover:border-yellow-200 transition-all duration-500 hover-lift">
+                        <div class="w-16 h-16 rounded-2xl bg-yellow-100 flex items-center justify-center mb-6">
+                            <i data-lucide="cloud-lightning" class="w-8 h-8 text-yellow-600"></i>
+                        </div>
+                        <h3 class="font-serif text-2xl text-earth mb-4">Catastrophizing</h3>
+                        <p class="text-earth/70 leading-relaxed">
+                            "This will never end" is depression speaking, not truth. Thoughts are not facts. Challenge the narrative with evidence and gentle curiosity.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="mt-12 bg-gradient-to-r from-red-50 to-orange-50 rounded-3xl p-10 border border-red-100">
+                    <div class="flex items-start gap-6">
+                        <div class="w-16 h-16 rounded-2xl bg-red-100 flex items-center justify-center flex-shrink-0">
+                            <i data-lucide="alert-triangle" class="w-8 h-8 text-red-600"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-display font-semibold text-earth mb-3 text-xl">Recognize the Warning Signs</h4>
+                            <p class="text-earth/70 leading-relaxed mb-4">
+                                If you notice yourself engaging in these patterns, it's not a moral failing—it's information. Depression alters decision-making. Awareness is the first step toward choosing differently.
+                            </p>
+                            <a href="resources.html" class="inline-flex items-center text-red-600 font-medium hover:text-red-700 transition-colors">
+                                Get immediate support
+                                <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Signs You're Healing Section - NEW -->
+    <section class="py-32 bg-gradient-to-br from-sage-50 via-cream to-lavender-50 relative">
+        <div class="max-w-6xl mx-auto px-6 lg:px-8">
+            <div class="text-center mb-16 reveal-text">
+                <span class="text-sage-600 font-display text-sm uppercase tracking-widest mb-4 block">Progress</span>
+                <h2 class="font-serif text-4xl md:text-6xl text-earth mb-6">Signs You're Healing</h2>
+                <p class="text-lg text-earth/70 max-w-2xl mx-auto leading-relaxed">
+                    Healing isn't always dramatic. Often, it's subtle shifts you might not even notice until you look back.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6 reveal-text">
+                <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-sage-200 flex items-start gap-4 hover-lift">
+                    <div class="w-10 h-10 rounded-full bg-sage-100 flex items-center justify-center flex-shrink-0">
+                        <i data-lucide="smile" class="w-5 h-5 text-sage-700"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-display font-semibold text-earth mb-2">Small joys return</h4>
+                        <p class="text-earth/70 text-sm">You notice the sunset. A song makes you smile. These tiny moments signal life returning.</p>
+                    </div>
+                </div>
+
+                <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-sage-200 flex items-start gap-4 hover-lift">
+                    <div class="w-10 h-10 rounded-full bg-lavender-100 flex items-center justify-center flex-shrink-0">
+                        <i data-lucide="bed" class="w-5 h-5 text-lavender-700"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-display font-semibold text-earth mb-2">Sleep finds rhythm</h4>
+                        <p class="text-earth/70 text-sm">You wake naturally. Sleep feels restorative instead of another escape or elusive need.</p>
+                    </div>
+                </div>
+
+                <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-sage-200 flex items-start gap-4 hover-lift">
+                    <div class="w-10 h-10 rounded-full bg-clay-100 flex items-center justify-center flex-shrink-0">
+                        <i data-lucide="calendar-days" class="w-5 h-5 text-clay-700"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-display font-semibold text-earth mb-2">Future has shape</h4>
+                        <p class="text-earth/70 text-sm">Making plans doesn't feel pointless. Tomorrow exists as more than just another day to survive.</p>
+                    </div>
+                </div>
+
+                <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-sage-200 flex items-start gap-4 hover-lift">
+                    <div class="w-10 h-10 rounded-full bg-sage-100 flex items-center justify-center flex-shrink-0">
+                        <i data-lucide="sparkles" class="w-5 h-5 text-sage-700"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-display font-semibold text-earth mb-2">Energy trickles back</h4>
+                        <p class="text-earth/70 text-sm">Showering doesn't exhaust you. Small tasks feel manageable. You have capacity again.</p>
+                    </div>
+                </div>
+
+                <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-sage-200 flex items-start gap-4 hover-lift">
+                    <div class="w-10 h-10 rounded-full bg-lavender-100 flex items-center justify-center flex-shrink-0">
+                        <i data-lucide="users-round" class="w-5 h-5 text-lavender-700"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-display font-semibold text-earth mb-2">Connection doesn't drain</h4>
+                        <p class="text-earth/70 text-sm">Being around people feels less overwhelming. You initiate contact instead of only responding.</p>
+                    </div>
+                </div>
+
+                <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-sage-200 flex items-start gap-4 hover-lift">
+                    <div class="w-10 h-10 rounded-full bg-clay-100 flex items-center justify-center flex-shrink-0">
+                        <i data-lucide="heart-handshake" class="w-5 h-5 text-clay-700"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-display font-semibold text-earth mb-2">Self-compassion grows</h4>
+                        <p class="text-earth/70 text-sm">The inner critic quiets. You speak to yourself with the kindness you'd offer a friend.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-12 text-center reveal-text">
+                <p class="font-serif text-2xl text-earth/80 italic max-w-3xl mx-auto">
+                    "Healing is not linear. Some days will be harder than others. That doesn't mean you're failing—it means you're human."
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section - NEW -->
+    <section class="py-24 bg-earth text-cream relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10">
+            <div class="absolute top-1/2 left-1/4 w-96 h-96 bg-sage-500 rounded-full blur-3xl animate-breathe"></div>
+            <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-lavender-500 rounded-full blur-3xl animate-breathe" style="animation-delay: 2s;"></div>
+        </div>
+
+        <div class="max-w-4xl mx-auto px-6 lg:px-8 text-center relative z-10">
+            <div class="mb-8 reveal-text">
+                <div class="inline-flex items-center px-4 py-2 rounded-full bg-white/10 border border-white/20 mb-6">
+                    <span class="w-2 h-2 rounded-full bg-sage-300 mr-2 animate-pulse"></span>
+                    <span class="text-sm font-display font-medium">Available 24/7</span>
+                </div>
+                
+                <h2 class="font-serif text-4xl md:text-6xl mb-6 leading-tight">
+                    You Don't Have to Face<br/>
+                    <span class="italic text-sage-300">This Alone</span>
+                </h2>
+                
+                <p class="text-lg md:text-xl text-cream/80 max-w-2xl mx-auto leading-relaxed mb-8">
+                    Whether you need immediate crisis support or resources for your healing journey, help is available. Taking this step is an act of courage.
+                </p>
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center reveal-text" style="transition-delay: 200ms;">
+                <a href="resources.html" class="inline-flex items-center px-8 py-4 bg-white text-earth rounded-full font-display font-medium hover:bg-sage-100 transition-all duration-300 magnetic-btn group">
+                    Access Resources
+                    <i data-lucide="arrow-right" class="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                </a>
+                <a href="tel:988" class="inline-flex items-center px-8 py-4 border-2 border-white/30 text-white rounded-full font-display font-medium hover:bg-white/10 transition-all duration-300">
+                    <i data-lucide="phone" class="mr-2 w-4 h-4"></i>
+                    Call 988 Now
+                </a>
+            </div>
+
+            <p class="mt-8 text-sm text-cream/60 reveal-text" style="transition-delay: 300ms;">
+                Free, confidential support available 24 hours a day, 7 days a week
+            </p>
         </div>
     </section>
 
@@ -485,8 +718,11 @@
                         </div>
                         <span class="font-serif text-2xl font-medium">Hope Harbor</span>
                     </div>
-                    <p class="text-cream/60 max-w-sm leading-relaxed">
+                    <p class="text-cream/60 max-w-sm leading-relaxed mb-6">
                         A sanctuary for those navigating the complexities of mental health. You don't have to walk this path alone.
+                    </p>
+                    <p class="font-serif text-lg text-sage-300 italic">
+                        "Mess creates magic"
                     </p>
                 </div>
                 
@@ -510,7 +746,16 @@
             </div>
             
             <div class="border-t border-cream/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-                <p class="text-cream/40 text-sm">© 2025 Hope Harbor. All rights reserved.</p>
+                <p class="text-cream/40 text-sm">
+© 2025 Hope Harbor. Designed & Developed by : 
+<a href="https://manishshah.dev" 
+   target="_blank" 
+   rel="noopener noreferrer" 
+   class="text-sage-300 hover:text-sage-200 transition-colors">
+   Manish Shah
+</a>.
+
+                </p>
                 <p class="text-cream/40 text-sm italic">Not a substitute for professional medical advice.</p>
             </div>
         </div>
@@ -556,6 +801,28 @@
         function toggleMenu() {
             const menu = document.getElementById('mobile-menu');
             menu.classList.toggle('hidden');
+        }
+
+        // Tab Switching System
+        function switchTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Remove active state from all buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('bg-sage-500', 'text-white');
+                btn.classList.add('text-earth/60', 'hover:text-earth');
+            });
+            
+            // Show selected content
+            document.getElementById('content-' + tabName).classList.add('active');
+            
+            // Activate selected button
+            const activeBtn = document.getElementById('tab-' + tabName);
+            activeBtn.classList.add('bg-sage-500', 'text-white');
+            activeBtn.classList.remove('text-earth/60', 'hover:text-earth');
         }
 
         // Quotes System
